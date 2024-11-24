@@ -12,7 +12,7 @@ function LoginPage() {
     try {
       const response = await login({ email, password });
       localStorage.setItem("token", response.data.token);
-      navigate.push("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
     }

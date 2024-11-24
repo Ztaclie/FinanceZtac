@@ -12,7 +12,7 @@ function RegisterPage() {
     e.preventDefault();
     try {
       await register({ username, email, password });
-      navigate.push("/login");
+      navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error);
     }
