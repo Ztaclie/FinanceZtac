@@ -45,9 +45,12 @@ function Dashboard() {
 
   const getTodaySummary = () => {
     const today = new Date().toISOString().split("T")[0];
-    const todayTransactions = transactions.filter(
-      (transaction) => transaction.date === today
-    );
+    const todayTransactions = transactions.filter((transaction) => {
+      const transactionDate = new Date(transaction.date)
+        .toISOString()
+        .split("T")[0];
+      return transactionDate === today;
+    });
     const totalIncome = todayTransactions
       .filter((transaction) => transaction.type === "income")
       .reduce((sum, transaction) => sum + transaction.amount, 0);
