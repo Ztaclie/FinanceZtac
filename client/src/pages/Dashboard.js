@@ -5,6 +5,7 @@ import {
   addTransaction,
 } from "../services/transactionService";
 import Modal from "../components/Modal";
+import Transaction from "../components/Transaction";
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -124,20 +125,26 @@ function Dashboard() {
             </div>
             <ul className="space-y-4">
               {transactions.map((transaction) => (
-                <li
-                  key={transaction._id}
-                  className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm"
-                >
-                  <span>
-                    {transaction.description} - ${transaction.amount}
-                  </span>
-                  <button
-                    onClick={() => handleDelete(transaction._id)}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                  >
-                    Delete
-                  </button>
-                </li>
+                <Transaction
+                  id={transaction._id}
+                  description={transaction.description}
+                  amount={transaction.amount}
+                  onDeleteClick={handleDelete}
+                />
+                // <li
+                //   key={transaction._id}
+                //   className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm"
+                // >
+                //   <span>
+                //     {transaction.description} - ${transaction.amount}
+                //   </span>
+                //   <button
+                //     onClick={() => handleDelete(transaction._id)}
+                //     className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
+                //   >
+                //     Delete
+                //   </button>
+                // </li>
               ))}
             </ul>
           </div>
