@@ -6,6 +6,7 @@ import {
 } from "../services/transactionService";
 import Modal from "../components/Modal";
 import Transaction from "../components/Transaction";
+import Card from "../components/Card";
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
@@ -100,14 +101,8 @@ function Dashboard() {
           <div>
             <h2 className="text-2xl font-bold mb-6">Today's Summary</h2>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded-lg shadow-lg">
-                <h3 className="text-xl font-bold">Total Income</h3>
-                <p className="text-2xl">${totalIncome}</p>
-              </div>
-              <div className="bg-white p-4 rounded-lg shadow-lg">
-                <h3 className="text-xl font-bold">Total Expense</h3>
-                <p className="text-2xl">${totalExpense}</p>
-              </div>
+              <Card title={"Total Income"} description={"$" + totalIncome} />
+              <Card title={"Total Expense"} description={"$" + totalExpense} />
             </div>
           </div>
         )}
