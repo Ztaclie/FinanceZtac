@@ -4,14 +4,19 @@ import {
   getTransactions,
   addTransaction,
 } from "../services/transactionService";
+
 import Modal from "../components/Modal";
 import Transaction from "../components/Transaction";
 import Card from "../components/Card";
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([]);
+  const [summaryDate, setSummaryDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("main");
+  const [showTotalSummary, setShowTotalSummary] = useState(true);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -45,25 +50,37 @@ function Dashboard() {
     }
   };
 
-  const getTodaySummary = () => {
-    const today = new Date().toISOString().split("T")[0];
-    const todayTransactions = transactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.date)
-        .toISOString()
-        .split("T")[0];
-      return transactionDate === today;
-    });
-    const totalIncome = todayTransactions
+  const getTotalSummary = (date) => {
+    const dateTransactions = date
+      ? transactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date)
+            .toISOString()
+            .split("T")[0];
+          return transactionDate === date;
+        })
+      : transactions;
+
+    const totalIncome = dateTransactions
       .filter((transaction) => transaction.type === "income")
       .reduce((sum, transaction) => sum + transaction.amount, 0);
-    const totalExpense = todayTransactions
+
+    const totalExpense = dateTransactions
       .filter((transaction) => transaction.type === "expense")
       .reduce((sum, transaction) => sum + transaction.amount, 0);
 
     return { totalIncome, totalExpense };
   };
 
-  const { totalIncome, totalExpense } = getTodaySummary();
+  const handleToggleSummary = (isTotal) => {
+    setShowTotalSummary(isTotal);
+    if (isTotal) {
+      setSummaryDate(new Date().toISOString().split("T")[0]);
+    }
+  };
+
+  const { totalIncome, totalExpense } = getTotalSummary(
+    showTotalSummary ? "" : summaryDate
+  );
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -99,7 +116,41 @@ function Dashboard() {
       <div className="flex-1 p-8">
         {activeSection === "main" && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">Today's Summary</h2>
+            <h2 className="text-2xl font-bold mb-6">Summary</h2>
+            <div className="mb-4 flex justify-start items-center gap-4">
+              <button
+                type="button"
+                className={`border-2 px-4 py-2 rounded-lg transition duration-200 ${
+                  showTotalSummary
+                    ? "bg-blue-600 text-white"
+                    : "border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white"
+                }`}
+                onClick={() => handleToggleSummary(true)}
+              >
+                Total Summary
+              </button>
+              <button
+                type="button"
+                className={`border-2 px-4 py-2 rounded-lg transition duration-200 ${
+                  !showTotalSummary
+                    ? "bg-blue-600 text-white"
+                    : "border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white"
+                }`}
+                onClick={() => handleToggleSummary(false)}
+              >
+                Custom Summary
+              </button>
+              {!showTotalSummary && (
+                <input
+                  id="summaryDate"
+                  type="date"
+                  className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-400 transition duration-200 shadow-lg"
+                  value={summaryDate}
+                  onChange={(e) => setSummaryDate(e.target.value)}
+                />
+              )}
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <Card title={"Total Income"} description={"$" + totalIncome} />
               <Card title={"Total Expense"} description={"$" + totalExpense} />
@@ -126,20 +177,6 @@ function Dashboard() {
                   amount={transaction.amount}
                   onDeleteClick={handleDelete}
                 />
-                // <li
-                //   key={transaction._id}
-                //   className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm"
-                // >
-                //   <span>
-                //     {transaction.description} - ${transaction.amount}
-                //   </span>
-                //   <button
-                //     onClick={() => handleDelete(transaction._id)}
-                //     className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
-                //   >
-                //     Delete
-                //   </button>
-                // </li>
               ))}
             </ul>
           </div>
