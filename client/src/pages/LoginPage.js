@@ -19,35 +19,34 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <form onSubmit={handleLogin}>
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-          <div className="mb-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div className="mb-6">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Login
-          </button>
-        </form>
+    <div className="flex items-center justify-center min-h-screen bg-base-200">
+      <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="card-body">
+          <form onSubmit={handleLogin}>
+            <h2 className="card-title text-center mb-4">Login</h2>
+            <div className="form-control mb-4">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                className="input input-bordered w-full"
+              />
+            </div>
+            <div className="form-control mb-6">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="input input-bordered w-full"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary w-full">
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
