@@ -165,16 +165,54 @@ function Dashboard() {
                 Add Transaction
               </button>
             </div>
-            <ul className="space-y-4">
-              {transactions.map((transaction) => (
-                <Transaction
-                  id={transaction._id}
-                  description={transaction.description}
-                  amount={transaction.amount}
-                  onDeleteClick={handleDelete}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h3 className="text-xl font-bold mb-4">Incomes</h3>
+                <ul className="space-y-4">
+                  {transactions
+                    .filter((t) => t.type === "income")
+                    .map((transaction) => (
+                      <Transaction
+                        key={transaction._id}
+                        id={transaction._id}
+                        description={transaction.description}
+                        amount={transaction.amount}
+                        onDeleteClick={handleDelete}
+                      />
+                    ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-4">Expenses</h3>
+                <ul className="space-y-4">
+                  {transactions
+                    .filter((t) => t.type === "expense")
+                    .map((transaction) => (
+                      <Transaction
+                        key={transaction._id}
+                        id={transaction._id}
+                        description={transaction.description}
+                        amount={transaction.amount}
+                        onDeleteClick={handleDelete}
+                      />
+                    ))}
+                </ul>
+              </div>
+            </div>
+            <div className="mt-6">
+              <h3 className="text-xl font-bold mb-5">Summary</h3>
+              <div className="grid grid-cols-3 gap-4">
+                <Card title={"Total Income"} description={"$" + totalIncome} />
+                <Card
+                  title={"Total"}
+                  description={"$" + (totalIncome - totalExpense)}
                 />
-              ))}
-            </ul>
+                <Card
+                  title={"Total Expense"}
+                  description={"$" + totalExpense}
+                />
+              </div>
+            </div>
           </div>
         )}
         {activeSection === "users" && (
@@ -188,6 +226,7 @@ function Dashboard() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddTransaction={handleAddTransaction}
+        transactions={transactions} // Pass transactions to Modal
       />
     </div>
   );

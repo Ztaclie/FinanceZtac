@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Modal({ isOpen, onClose, onAddTransaction }) {
+function Modal({ isOpen, onClose, onAddTransaction, transactions }) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
@@ -10,16 +10,22 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
     const today = new Date();
     return today.toISOString().split("T")[0];
   });
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const orderNumber = transactions.filter((t) => t.type === type).length + 1;
     const transaction = {
       type,
       amount: parseFloat(amount),
       category,
       tags: tags.split(",").map((tag) => tag.trim()),
       date,
-      description,
+      description:
+        description ||
+        (type === "income"
+          ? `Income #${orderNumber}`
+          : `Expense #${orderNumber}`),
     };
     onAddTransaction(transaction);
     setDescription("");
@@ -43,15 +49,6 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Description"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -70,32 +67,51 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
             </select>
           </div>
           <div className="mb-4">
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Category"
-              className="input input-bordered w-full"
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              className="textarea textarea-bordered w-full"
             />
           </div>
-          <div className="mb-4">
-            <input
-              type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              placeholder="Tags (comma separated)"
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="input input-bordered w-full"
-            />
-          </div>
+          {showAdvanced && (
+            <>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  placeholder="Category"
+                  className="input input-bordered w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  placeholder="Tags (comma separated)"
+                  className="input input-bordered w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="input input-bordered w-full"
+                />
+              </div>
+            </>
+          )}
           <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="btn btn-secondary mr-2"
+            >
+              {showAdvanced ? "Hide Advanced" : "Show Advanced"}
+            </button>
             <button
               type="button"
               onClick={onClose}
