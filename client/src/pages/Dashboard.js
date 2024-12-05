@@ -83,8 +83,8 @@ function Dashboard() {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="w-64 bg-white p-8 shadow-lg">
+    <div className="flex min-h-screen bg-base-200">
+      <div className="w-64 bg-base-100 p-8 shadow-lg">
         <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
         <ul>
           <li
@@ -120,10 +120,8 @@ function Dashboard() {
             <div className="mb-4 flex justify-start items-center gap-4">
               <button
                 type="button"
-                className={`border-2 px-4 py-2 rounded-lg transition duration-200 ${
-                  showTotalSummary
-                    ? "bg-blue-600 text-white"
-                    : "border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white"
+                className={`btn ${
+                  showTotalSummary ? "btn-primary" : "btn-outline btn-primary"
                 }`}
                 onClick={() => handleToggleSummary(true)}
               >
@@ -131,10 +129,8 @@ function Dashboard() {
               </button>
               <button
                 type="button"
-                className={`border-2 px-4 py-2 rounded-lg transition duration-200 ${
-                  !showTotalSummary
-                    ? "bg-blue-600 text-white"
-                    : "border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white"
+                className={`btn ${
+                  !showTotalSummary ? "btn-primary" : "btn-outline btn-primary"
                 }`}
                 onClick={() => handleToggleSummary(false)}
               >
@@ -144,7 +140,7 @@ function Dashboard() {
                 <input
                   id="summaryDate"
                   type="date"
-                  className="bg-white text-black px-4 py-2 rounded-lg hover:bg-blue-400 transition duration-200 shadow-lg"
+                  className="input input-bordered"
                   value={summaryDate}
                   onChange={(e) => setSummaryDate(e.target.value)}
                 />
@@ -163,7 +159,7 @@ function Dashboard() {
               <h2 className="text-2xl font-bold">Transactions</h2>
               <button
                 type="button"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+                className="btn btn-primary"
                 onClick={() => setIsModalOpen(true)}
               >
                 Add Transaction

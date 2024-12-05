@@ -38,7 +38,7 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-base-100 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4">Add Transaction</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -47,7 +47,7 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="mb-4">
@@ -56,14 +56,14 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Amount"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="mb-4">
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="select select-bordered w-full"
             >
               <option value="income">Income</option>
               <option value="expense">Expense</option>
@@ -75,7 +75,7 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Category"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="mb-4">
@@ -84,7 +84,7 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
               value={tags}
               onChange={(e) => setTags(e.target.value)}
               placeholder="Tags (comma separated)"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="mb-4">
@@ -92,21 +92,18 @@ function Modal({ isOpen, onClose, onAddTransaction }) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="input input-bordered w-full"
             />
           </div>
           <div className="flex justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-gray-600 transition duration-200"
+              className="btn btn-secondary mr-2"
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-            >
+            <button type="submit" className="btn btn-primary">
               Add
             </button>
           </div>

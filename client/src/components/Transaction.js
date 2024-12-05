@@ -3,14 +3,14 @@ const Transaction = ({ id, description, amount, onDeleteClick }) => {
     <div className="Transaction">
       <li
         key={id}
-        className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm"
+        className="flex justify-between items-center p-4 bg-base-100 rounded-lg shadow-md"
       >
         <span>
           {description} - ${amount}
         </span>
         <button
           onClick={() => onDeleteClick(id)}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
+          className="btn btn-error text-white"
         >
           Delete
         </button>
